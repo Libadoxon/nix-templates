@@ -13,4 +13,4 @@ target/
 .direnv
 
 # nix build result
-result/
+result
