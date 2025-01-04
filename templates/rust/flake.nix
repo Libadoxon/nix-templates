@@ -4,6 +4,7 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     naersk.url = "github:nix-community/naersk";
+    fenix.url = "github:nix-community/fenix";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
@@ -12,6 +13,7 @@
       self,
       flake-utils,
       naersk,
+      fenix,
       nixpkgs,
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -21,17 +23,33 @@
           inherit system;
         };
 
-        naersk' = pkgs.callPackage naersk { };
+        toolchain =
+          with fenix.packages.${system};
+          combine (
+            with stable;
+            [
+              rustc
+              cargo
+              clippy
+            ]
+          );
+
+        naersk' = naersk.lib.${system}.override {
+          cargo = toolchain;
+          rustc = toolchain;
+        };
       in
-      rec {
-        packages.default = naersk'.buildPackage {
-          src = ./.;
+      {
+        packages = rec {
+          default = naersk'.buildPackage {
+            src = ./.;
+          };
         };
 
-        devShell = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
-            rustc
-            cargo
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = [
+            toolchain
+            fenix.packages.${system}.rust-analyzer
           ];
         };
       }
