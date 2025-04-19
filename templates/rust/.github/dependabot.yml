@@ -9,6 +9,10 @@ updates:
     labels:
       - "deps"
       - "automated"
+    groups:
+      cargo:
+        patterns:
+          - "*"
     open-pull-requests-limit: 10
 
   - package-ecosystem: "github-actions"
@@ -19,4 +23,8 @@ updates:
     labels:
       - "deps"
       - "automated"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
     open-pull-requests-limit: 10
