@@ -40,7 +40,7 @@
         };
       in
       {
-        packages = rec {
+        packages = {
           default = naersk'.buildPackage {
             src = ./.;
           };
@@ -49,7 +49,6 @@
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = [
             toolchain
-            fenix.packages.${system}.rust-analyzer
           ];
         };
       }
