@@ -1,0 +1,9 @@
+# python stuff
+.venv/
+dist/
+
+# direnv cache
+.direnv
+
+# nix build result
+result
