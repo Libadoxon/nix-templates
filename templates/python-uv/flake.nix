@@ -111,6 +111,10 @@
             };
           shellHook = ''
             unset PYTHONPATH
+            if [ ! -d ".venv" ]; then
+             uv venv .venv
+            fi
+            source .venv/bin/activate
           '';
         };
       }
