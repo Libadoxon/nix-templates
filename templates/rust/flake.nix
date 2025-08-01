@@ -94,7 +94,6 @@
           inherit APP;
           default = APP;
         };
-        defaultPackage = APP;
 
         devShells.default = craneLib.devShell { packages = buildInputs ++ nativeBuildInputs; };
       }
