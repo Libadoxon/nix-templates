@@ -14,9 +14,15 @@
           );
           gen =
             l:
-            lib.genAttrs l (n: {
-              path = ./templates/${n};
-            });
+            lib.genAttrs l (
+              n:
+              {
+                path = ./templates/${n};
+              }
+              // (lib.optionalAttrs (lib.pathExists ./init-scripts/${n}) {
+                welcomeText = "Execute 'bash -c \"$(curl -sL https://raw.githubusercontent.com/Libadoxon/nix-templates/main/init-scripts/${n})\"' to execute setup commands";
+              })
+            );
         in
         gen dirs;
     };
