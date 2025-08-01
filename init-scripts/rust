@@ -18,9 +18,7 @@ if [ -z "$desc" ]; then
 	exit 1
 fi
 
-set +x
-
 git init
-cargo init --name "$pname"
+cargo init --name "$pname" --vcs none
 find . -type f -exec sed -i "s/APP/$pname/g" {} +
 find . -type f -exec sed -i "s/DESC/$desc/g" {} +
