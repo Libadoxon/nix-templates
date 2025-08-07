@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#!nix shell nixpkgs#git
+#!nix develop
+
+set -euo pipefail
+
+echo "Please enter project name (if empty will use name of the parent): "
+read -r pname
+echo "Please enter a description for your project: "
+read -r desc
+
+if [ -z "$pname" ]; then
+	pname=$(basename "$PWD")
+fi
+
+if [ -z "$desc" ]; then
+	echo "Please enter a description"
+	exit 1
+fi
+
+git init
+cargo update
+find . -type f -exec sed -i "s/APP/$pname/g" {} +
+find . -type f -exec sed -i "s/DESC/$desc/g" {} +
